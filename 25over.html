@@ -36,7 +36,7 @@
                   <th>MPH Over</th>
                   <th>Violator Sex</th>
               </tr>
-              <tr v-for="ticket in tickets" v-if="ticket && (ticket.actual_speed - ticket.posted_speed) >= 25">
+              <tr v-for="ticket in filteredTickets">
                   <td>{{ticket.tid}}</td>
                   <td>{{ticket.stop_time}}</td>
                   <td>{{ticket.posted_speed}}</td>
@@ -52,7 +52,12 @@
        let app = Vue.createApp({
             data() {     // returns an object of data
                 return {
-                    tickets: [],           // array to hold ticket data
+                    tickets: [],           // array to hold all ticket data
+                }
+            },
+            computed: {
+                filteredTickets() {
+                    return this.tickets.filter(ticket => ticket.actual_speed - ticket.posted_speed >= 25);
                 }
             },
             created() {      // section executes as page loads
